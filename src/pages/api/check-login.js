@@ -7,14 +7,25 @@ const validUsers = [
 ];
 
 export async function POST({ request }) {
+  // Add CORS headers for Netlify
+  const headers = {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type'
+  };
+
   try {
     const { username, password } = await request.json();
+    
+    // Log for debugging (remove in production)
+    console.log('Login attempt:', { username, password: '***' });
     
     // Validate input
     if (!username || !password) {
       return new Response(
         JSON.stringify({ success: false, error: 'Username and password required' }), 
-        { status: 400 }
+        { status: 400, headers }
       );
     }
     
@@ -22,6 +33,8 @@ export async function POST({ request }) {
     const found = validUsers.some(user => 
       user.username === username && user.password === password
     );
+    
+    console.log('Authentication result:', found);
     
     if (found) {
       // In a real app, you'd generate a JWT token here
@@ -33,22 +46,32 @@ export async function POST({ request }) {
         }), 
         { 
           status: 200,
-          headers: {
-            'Content-Type': 'application/json'
-          }
+          headers
         }
       );
     } else {
       return new Response(
         JSON.stringify({ success: false, error: 'Invalid credentials' }), 
-        { status: 401 }
+        { status: 401, headers }
       );
     }
   } catch (err) {
     console.error('Login error:', err);
     return new Response(
       JSON.stringify({ success: false, error: 'Server error' }), 
-      { status: 500 }
+      { status: 500, headers }
     );
   }
+}
+
+// Handle OPTIONS request for CORS
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type'
+    }
+  });
 }

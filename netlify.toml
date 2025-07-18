@@ -2,16 +2,10 @@
   command = "npm run build"
   publish = "dist"
 
-# API routes will be handled automatically by Netlify
-# No need to specify functions directory for static builds
+# For Astro server mode with Netlify adapter
+# Functions are handled automatically by the adapter
 
-# Handle client-side routing
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
-
-# SPA fallback for client-side routing
+# Handle client-side routing for protected pages
 [[redirects]]
   from = "/*"
   to = "/index.html"
