@@ -1,0 +1,359 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const lessons = [
+	{
+		id: 1,
+		title: "Situations de la vie quotidienne",
+		description: "Apprenez à communiquer dans des situations courantes : au café, chez le médecin, dans les transports, lors d'achats, et dans la vie sociale. Pratiquez des dialogues et des expressions utiles pour interagir au quotidien.",
+		topics: [
+			"Commander au café ou au restaurant",
+			"Faire des achats et demander des prix",
+			"Se déplacer et demander des informations",
+			"Prendre rendez-vous chez le médecin",
+			"Exprimer des besoins et résoudre des problèmes quotidiens"
+		],
+		duration: "30 minutes",
+		difficulty: "Débutant"
+	},
+	{
+		id: 2,
+		title: "Famille et Relations",
+		description: "Vocabulaire pour les membres de la famille et description des relations entre les personnes.",
+		topics: ["Membres de la famille", "Décrire les gens", "Adjectifs possessifs", "Relations de base"],
+		duration: "40 minutes",
+		difficulty: "Débutant+"
+	},
+	{
+		id: 3,
+		title: "Nourriture et Restaurants",
+		description: "Vocabulaire essentiel pour la nourriture, les boissons, et dîner dans les pays francophones.",
+		topics: ["Vocabulaire alimentaire", "Phrases de restaurant", "Commander de la nourriture", "Exprimer les préférences"],
+		duration: "45 minutes",
+		difficulty: "Débutant+"
+	},
+	{
+		id: 4,
+		title: "Se Déplacer en Ville",
+		description: "Apprenez les directions, le vocabulaire des transports, et comment naviguer dans les villes françaises.",
+		topics: ["Directions", "Transports", "Points de repère urbains", "Demander de l'aide"],
+		duration: "40 minutes",
+		difficulty: "Intermédiaire"
+	}
+];
+---
+
+<Layout title="Cours de Français A1 - Apprendre le Français en Ligne" description="Cours complet de français A1 pour adultes. Apprenez les bases du français à travers 5 leçons complètes couvrant les salutations, les nombres, la famille, la nourriture, et se déplacer.">
+	<div class="hero-section">
+		<div class="hero-content">
+			<h1>Bienvenue au Cours de Français A1</h1>
+			<p class="hero-subtitle">Maîtrisez les bases du français à travers 4 leçons complètes conçues pour les apprenants adultes</p>
+			<p class="hero-subtitle-arabic">أتقن أساسيات اللغة الفرنسية من خلال 4 دروس شاملة مصممة للمتعلمين البالغين</p>
+			<div class="hero-stats">
+				<div class="stat">
+					<span class="stat-number">4</span>
+					<span class="stat-label">Leçons</span>
+				</div>
+			
+				<div class="stat">
+					<span class="stat-number">A1</span>
+					<span class="stat-label">Niveau CECR</span>
+				</div>
+			</div>
+			<a href="/lesson1" class="btn btn-large">Commencer l'Apprentissage 🚀</a>
+		</div>
+	</div>
+
+	<div class="course-overview">
+		<h2>Leçons du Cours</h2>
+		<div class="lessons-grid">
+			{lessons.map((lesson) => (
+				<div class="lesson-card">
+					<div class="lesson-header">
+						<span class="lesson-number">Leçon {lesson.id}</span>
+						<span class="lesson-difficulty">{lesson.difficulty}</span>
+					</div>
+					<h3>{lesson.title}</h3>
+					<p class="lesson-description">{lesson.description}</p>
+					<div class="lesson-topics">
+						<h4>Vous apprendrez:</h4>
+						<ul>
+							{lesson.topics.map((topic) => (
+								<li>{topic}</li>
+							))}
+						</ul>
+					</div>
+					<div class="lesson-footer">
+						<span class="lesson-duration">⏱️ {lesson.duration}</span>
+<a href={`/lesson${lesson.id}`} class="btn btn-secondary">Commencer la Leçon</a>
+					</div>
+				</div>
+			))}
+		</div>
+	</div>
+
+	<div class="course-info">
+		<h2>À Propos de Ce Cours</h2>
+		<div class="info-grid">
+			<div class="info-card">
+				<h3>🎯 Pour qui est ce cours?</h3>
+				<p>Adultes qui sont des débutants complets en français ou qui veulent rafraîchir leurs connaissances de base.</p>
+				<p class="arabic-translation">البالغون المبتدئون تماماً في اللغة الفرنسية أو الذين يريدون تجديد معرفتهم الأساسية</p>
+				<p>Parfait pour les voyageurs, étudiants, ou toute personne intéressée par la culture française.</p>
+				<p class="arabic-translation">مثالي للمسافرين والطلاب أو أي شخص مهتم بالثقافة الفرنسية</p>
+			</div>
+			<div class="info-card">
+				<h3>📚 Ce que vous accomplirez</h3>
+				<p>À la fin de ce cours, vous pourrez avoir des conversations de base, vous présenter, commander de la nourriture, demander des directions, et comprendre le français essentiel.</p>
+				<p class="arabic-translation">في نهاية هذه الدورة، ستتمكن من إجراء محادثات أساسية وتقديم نفسك وطلب الطعام وطلب الاتجاهات وفهم الفرنسية الأساسية</p>
+			</div>
+			<div class="info-card">
+				<h3>⚡ Approche d'apprentissage</h3>
+				<p>Leçons interactives avec des exemples pratiques, du contexte culturel, et des scénarios du monde réel pour vous aider à commencer à utiliser le français immédiatement.</p>
+				<p class="arabic-translation">دروس تفاعلية مع أمثلة عملية وسياق ثقافي وسيناريوهات من العالم الحقيقي لمساعدتك على البدء في استخدام الفرنسية فوراً</p>
+			</div>
+		</div>
+	</div>
+</Layout>
+
+<style>
+	.hero-section {
+		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		color: white;
+		padding: 4rem 0;
+		text-align: center;
+		margin: -2rem -1rem 3rem -1rem;
+	}
+
+	.hero-content h1 {
+		font-size: 3rem;
+		margin-bottom: 1rem;
+		font-weight: 700;
+	}
+
+	.hero-subtitle {
+		font-size: 1.25rem;
+		margin-bottom: 1rem;
+		opacity: 0.9;
+		max-width: 600px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.hero-subtitle-arabic {
+		font-size: 1.1rem;
+		margin-bottom: 2rem;
+		opacity: 0.8;
+		max-width: 600px;
+		margin-left: auto;
+		margin-right: auto;
+		direction: rtl;
+		text-align: right;
+		font-family: 'Arial', sans-serif;
+		line-height: 1.6;
+	}
+
+	.hero-stats {
+		display: flex;
+		justify-content: center;
+		gap: 3rem;
+		margin-bottom: 2rem;
+	}
+
+	.stat {
+		text-align: center;
+	}
+
+	.stat-number {
+		display: block;
+		font-size: 2rem;
+		font-weight: 700;
+	}
+
+	.stat-label {
+		display: block;
+		opacity: 0.8;
+		font-size: 0.9rem;
+	}
+
+	.btn-large {
+		font-size: 1.1rem;
+		padding: 1rem 2rem;
+	}
+
+	.course-overview {
+		margin-bottom: 4rem;
+	}
+
+	.course-overview h2 {
+		text-align: center;
+		font-size: 2.5rem;
+		margin-bottom: 3rem;
+		color: var(--color-primary);
+	}
+
+	.lessons-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+		gap: 2rem;
+	}
+
+	.lesson-card {
+		background: white;
+		border-radius: var(--border-radius);
+		padding: 1.5rem;
+		box-shadow: var(--shadow-lg);
+		transition: transform 0.2s, box-shadow 0.2s;
+		border: 1px solid var(--color-border);
+	}
+
+	.lesson-card:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+	}
+
+	.lesson-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 1rem;
+	}
+
+	.lesson-number {
+		background: var(--color-primary);
+		color: white;
+		padding: 0.25rem 0.75rem;
+		border-radius: 20px;
+		font-size: 0.875rem;
+		font-weight: 600;
+	}
+
+	.lesson-difficulty {
+		background: var(--color-accent);
+		color: white;
+		padding: 0.25rem 0.75rem;
+		border-radius: 20px;
+		font-size: 0.75rem;
+		font-weight: 500;
+	}
+
+	.lesson-card h3 {
+		font-size: 1.25rem;
+		margin-bottom: 0.75rem;
+		color: var(--color-text);
+	}
+
+	.lesson-description {
+		color: var(--color-text-light);
+		margin-bottom: 1rem;
+		line-height: 1.5;
+	}
+
+	.lesson-topics {
+		margin-bottom: 1.5rem;
+	}
+
+	.lesson-topics h4 {
+		font-size: 0.875rem;
+		color: var(--color-text);
+		margin-bottom: 0.5rem;
+		font-weight: 600;
+	}
+
+	.lesson-topics ul {
+		list-style: none;
+		padding: 0;
+	}
+
+	.lesson-topics li {
+		background: var(--color-secondary);
+		padding: 0.25rem 0.75rem;
+		margin-bottom: 0.25rem;
+		border-radius: 4px;
+		font-size: 0.875rem;
+		color: var(--color-text-light);
+	}
+
+	.lesson-footer {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		padding-top: 1rem;
+		border-top: 1px solid var(--color-border);
+	}
+
+	.lesson-duration {
+		font-size: 0.875rem;
+		color: var(--color-text-light);
+		font-weight: 500;
+	}
+
+	.course-info h2 {
+		text-align: center;
+		font-size: 2.5rem;
+		margin-bottom: 3rem;
+		color: var(--color-primary);
+	}
+
+	.info-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 2rem;
+	}
+
+	.info-card {
+		background: var(--color-secondary);
+		padding: 2rem;
+		border-radius: var(--border-radius);
+		text-align: center;
+	}
+
+	.info-card h3 {
+		font-size: 1.25rem;
+		margin-bottom: 1rem;
+		color: var(--color-primary);
+	}
+
+	.info-card p {
+		color: var(--color-text-light);
+		line-height: 1.6;
+		margin-bottom: 0.75rem;
+	}
+
+	.arabic-translation {
+		direction: rtl;
+		text-align: right;
+		font-family: 'Arial', sans-serif;
+		font-size: 0.9rem;
+		color: var(--color-text-light);
+		opacity: 0.8;
+		font-style: italic;
+		margin-bottom: 1rem !important;
+		padding: 0.5rem;
+		background: rgba(102, 126, 234, 0.1);
+		border-radius: 4px;
+		border-right: 3px solid var(--color-primary);
+	}
+
+	@media (max-width: 768px) {
+		.hero-content h1 {
+			font-size: 2rem;
+		}
+
+		.hero-stats {
+			gap: 1.5rem;
+		}
+
+		.lessons-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.lesson-card {
+			padding: 1rem;
+		}
+
+		.info-grid {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
