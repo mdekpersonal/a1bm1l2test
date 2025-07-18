@@ -461,6 +461,24 @@ import Layout from '../layouts/Layout.astro'
   </div>
 </div>
 <script>
+// Authentication check runs immediately
+(function() {
+  const loggedIn = localStorage.getItem('loggedIn');
+  
+  if (!loggedIn || loggedIn !== 'true') {
+    // Redirect immediately without showing content
+    window.location.replace('/login');
+    return;
+  }
+  
+  // User is logged in, hide loading screen and show content
+  const loadingScreen = document.getElementById('loading-screen');
+  if (loadingScreen) {
+    loadingScreen.style.display = 'none';
+  }
+})();
+
+// Quiz functionality
 document.addEventListener('DOMContentLoaded', function() {
   const form = document.getElementById('partitive-quiz');
   if (form) {
@@ -489,6 +507,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </Layout>
 
 <style>
+	@keyframes spin {
+		0% { transform: rotate(0deg); }
+		100% { transform: rotate(360deg); }
+	}
+
 	/* Base lesson styles */
 	.lesson-header {
 		text-align: center;
