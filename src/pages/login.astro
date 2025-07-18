@@ -1,0 +1,106 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+
+let error = '';
+const validUsers = [
+  { username: 'samira', password: '040391' },
+  { username: 'oumaima', password: 'bouhya2025' },
+  { username: 'nouhaila', password: 'metnani2025' }
+];
+
+function handleLogin(e: Event) {
+  e.preventDefault();
+  const form = e.target as HTMLFormElement | null;
+  if (!form) return;
+  const username = form.username.value;
+  const password = form.password.value;
+  const found = validUsers.some(user => user.username === username && user.password === password);
+  if (found) {
+    window.location.href = '/';
+  } else {
+    error = 'Identifiants incorrects';
+    const errorElem = document.getElementById('login-error');
+    if (errorElem) {
+      errorElem.innerText = error;
+    }
+  }
+}
+---
+
+
+<Layout title="Connexion Étudiant" description="Connectez-vous pour accéder au cours de français.">
+  <div class="login-container">
+    <h1>Connexion Étudiant</h1>
+    <form id="login-form" autocomplete="off">
+      <label for="username">Nom d'utilisateur</label>
+      <input type="text" id="username" name="username" required autocomplete="off" />
+      <label for="password">Mot de passe</label>
+      <input type="password" id="password" name="password" required autocomplete="off" />
+      <button type="submit" class="btn btn-large">Se connecter</button>
+      <div id="login-error" class="login-error"></div>
+    </form>
+  </div>
+</Layout>
+
+<script>
+  const validUsers = [
+    { username: 'samira', password: '040391' },
+    { username: 'oumaima', password: 'bouhya2025' },
+    { username: 'nouhaila', password: 'metnani2025' }
+  ];
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('login-form');
+    if (!form) return;
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const usernameInput = document.getElementById('username');
+      const passwordInput = document.getElementById('password');
+      const errorElem = document.getElementById('login-error');
+      if (!usernameInput || !passwordInput) {
+        if (errorElem) errorElem.innerText = 'Erreur du formulaire.';
+        return;
+      }
+      const username = (usernameInput as HTMLInputElement).value;
+      const password = (passwordInput as HTMLInputElement).value;
+      const found = validUsers.some(user => user.username === username && user.password === password);
+      if (found) {
+        window.location.href = '/';
+      } else {
+        if (errorElem) errorElem.innerText = 'Identifiants incorrects';
+      }
+    });
+  });
+</script>
+
+<style>
+.login-container {
+  max-width: 400px;
+  margin: 4rem auto;
+  background: white;
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+.login-container h1 {
+  margin-bottom: 2rem;
+}
+.login-container label {
+  display: block;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+.login-container input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+}
+.login-error {
+  color: red;
+  margin-top: 1rem;
+  min-height: 1.5rem;
+}
+</style>
