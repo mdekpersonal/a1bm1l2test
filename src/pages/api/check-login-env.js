@@ -1,10 +1,5 @@
-// Netlify-compatible authentication
-// Store credentials as environment variables or hardcoded for simplicity
-const validUsers = [
-  { username: 'samira', password: '040391' },
-  { username: 'oumaima', password: 'bouhya2025' },
-  { username: 'nouhaila', password: 'metnani2025' }
-];
+// More secure version using environment variables
+// Set VALID_USERS environment variable in Netlify dashboard
 
 export async function POST({ request }) {
   try {
@@ -18,13 +13,20 @@ export async function POST({ request }) {
       );
     }
     
+    // Get credentials from environment variables or fallback to hardcoded
+    const validUsersEnv = process.env.VALID_USERS || 'samira:040391,oumaima:bouhya2025,nouhaila:metnani2025';
+    
+    const validUsers = validUsersEnv.split(',').map(userPass => {
+      const [user, pass] = userPass.split(':');
+      return { username: user.trim(), password: pass.trim() };
+    });
+    
     // Check credentials
     const found = validUsers.some(user => 
       user.username === username && user.password === password
     );
     
     if (found) {
-      // In a real app, you'd generate a JWT token here
       return new Response(
         JSON.stringify({ 
           success: true, 

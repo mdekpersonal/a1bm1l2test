@@ -1,31 +1,5 @@
 ---
 import Layout from '../layouts/Layout.astro';
-
-
-let error = '';
-const validUsers = [
-  { username: 'samira', password: '040391' },
-  { username: 'oumaima', password: 'bouhya2025' },
-  { username: 'nouhaila', password: 'metnani2025' }
-];
-
-function handleLogin(e: Event) {
-  e.preventDefault();
-  const form = e.target as HTMLFormElement | null;
-  if (!form) return;
-  const username = form.username.value;
-  const password = form.password.value;
-  const found = validUsers.some(user => user.username === username && user.password === password);
-  if (found) {
-    window.location.href = '/';
-  } else {
-    error = 'Identifiants incorrects';
-    const errorElem = document.getElementById('login-error');
-    if (errorElem) {
-      errorElem.innerText = error;
-    }
-  }
-}
 ---
 
 
@@ -44,30 +18,60 @@ function handleLogin(e: Event) {
 </Layout>
 
 <script>
-  const validUsers = [
-    { username: 'samira', password: '040391' },
-    { username: 'oumaima', password: 'bouhya2025' },
-    { username: 'nouhaila', password: 'metnani2025' }
-  ];
   document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('login-form');
     if (!form) return;
-    form.addEventListener('submit', function(e) {
+    
+    form.addEventListener('submit', async function(e) {
       e.preventDefault();
-      const usernameInput = document.getElementById('username');
-      const passwordInput = document.getElementById('password');
+      
+      const usernameInput = document.getElementById('username') as HTMLInputElement;
+      const passwordInput = document.getElementById('password') as HTMLInputElement;
       const errorElem = document.getElementById('login-error');
+      const submitButton = form.querySelector('button[type="submit"]') as HTMLButtonElement;
+      
       if (!usernameInput || !passwordInput) {
         if (errorElem) errorElem.innerText = 'Erreur du formulaire.';
         return;
       }
-      const username = (usernameInput as HTMLInputElement).value;
-      const password = (passwordInput as HTMLInputElement).value;
-      const found = validUsers.some(user => user.username === username && user.password === password);
-      if (found) {
-        window.location.href = '/';
-      } else {
-        if (errorElem) errorElem.innerText = 'Identifiants incorrects';
+      
+      const username = usernameInput.value;
+      const password = passwordInput.value;
+      
+      // Show loading state
+      if (submitButton) {
+        submitButton.textContent = 'Connexion...';
+        submitButton.disabled = true;
+      }
+      
+      try {
+        const response = await fetch('/api/check-login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, password }),
+        });
+        
+        const result = await response.json();
+        
+        if (result.success) {
+          // Store login state
+          localStorage.setItem('loggedIn', 'true');
+          localStorage.setItem('username', username);
+          window.location.href = '/';
+        } else {
+          if (errorElem) errorElem.innerText = 'Identifiants incorrects';
+        }
+      } catch (error) {
+        console.error('Login error:', error);
+        if (errorElem) errorElem.innerText = 'Erreur de connexion. Veuillez réessayer.';
+      } finally {
+        // Reset button state
+        if (submitButton) {
+          submitButton.textContent = 'Se connecter';
+          submitButton.disabled = false;
+        }
       }
     });
   });

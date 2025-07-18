@@ -11,13 +11,13 @@ app.use(express.json());
 
 app.post('/api/check-login', (req, res) => {
   const { username, password } = req.body;
-  const credPath = path.join(__dirname, '../credentials.txt');
+  const credPath = path.join(__dirname, 'credentials.txt');
   try {
     const data = fs.readFileSync(credPath, 'utf8');
-    const lines = data.split('\n');
+    const lines = data.split('\n').filter(line => line.trim());
     const found = lines.some(line => {
       const [user, pass] = line.split(',');
-      return user === username && pass === password;
+      return user && pass && user.trim() === username && pass.trim() === password;
     });
     if (found) {
       res.json({ success: true });
@@ -25,6 +25,7 @@ app.post('/api/check-login', (req, res) => {
       res.status(401).json({ success: false });
     }
   } catch (err) {
+    console.error('Error reading credentials file:', err);
     res.status(500).json({ success: false, error: 'Server error' });
   }
 });

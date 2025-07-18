@@ -46,6 +46,10 @@ const lessons = [
 <Layout title="Cours de Français A1 - Apprendre le Français en Ligne" description="Cours complet de français A1 pour adultes. Apprenez les bases du français à travers 5 leçons complètes couvrant les salutations, les nombres, la famille, la nourriture, et se déplacer.">
 	<div class="hero-section">
 		<div class="hero-content">
+			<div class="user-info">
+				<span id="welcome-message">Bienvenue</span>
+				<button id="logout-btn" class="logout-btn">Déconnexion</button>
+			</div>
 			<h1>Bienvenue au Cours de Français A1</h1>
 			<p class="hero-subtitle">Maîtrisez les bases du français à travers 4 leçons complètes conçues pour les apprenants adultes</p>
 			<p class="hero-subtitle-arabic">أتقن أساسيات اللغة الفرنسية من خلال 4 دروس شاملة مصممة للمتعلمين البالغين</p>
@@ -116,6 +120,35 @@ const lessons = [
 	</div>
 </Layout>
 
+<script>
+  // Check if user is logged in
+  document.addEventListener('DOMContentLoaded', () => {
+    const loggedIn = localStorage.getItem('loggedIn');
+    const username = localStorage.getItem('username');
+    
+    if (!loggedIn || loggedIn !== 'true') {
+      window.location.href = '/login';
+      return;
+    }
+    
+    // Update welcome message
+    const welcomeMessage = document.getElementById('welcome-message');
+    if (welcomeMessage && username) {
+      welcomeMessage.textContent = `Bienvenue, ${username}!`;
+    }
+    
+    // Handle logout
+    const logoutBtn = document.getElementById('logout-btn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', () => {
+        localStorage.removeItem('loggedIn');
+        localStorage.removeItem('username');
+        window.location.href = '/login';
+      });
+    }
+  });
+</script>
+
 <style>
 	.hero-section {
 		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -123,6 +156,36 @@ const lessons = [
 		padding: 4rem 0;
 		text-align: center;
 		margin: -2rem -1rem 3rem -1rem;
+	}
+
+	.user-info {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 1rem;
+		margin-bottom: 2rem;
+	}
+
+	.logout-btn {
+		background: rgba(255, 255, 255, 0.2);
+		color: white;
+		border: 1px solid rgba(255, 255, 255, 0.3);
+		padding: 0.5rem 1rem;
+		border-radius: 4px;
+		cursor: pointer;
+		transition: all 0.2s;
+	}
+
+	.logout-btn:hover {
+		background: rgba(255, 255, 255, 0.3);
+		transform: translateY(-1px);
+	}
+
+	#welcome-message {
+		font-weight: 600;
+		font-size: 1.1rem;
 	}
 
 	.hero-content h1 {
