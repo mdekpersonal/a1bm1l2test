@@ -3,6 +3,14 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Leçon 2 : La Famille et les Relations - Cours de Français A1">
+	<!-- Loading indicator -->
+	<div id="loading-screen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #667eea; display: flex; justify-content: center; align-items: center; z-index: 9999;">
+		<div style="text-align: center; color: white;">
+			<div style="width: 50px; height: 50px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 3px solid white; animation: spin 1s linear infinite; margin: 0 auto 1rem;"></div>
+			<p>Vérification de l'authentification...</p>
+		</div>
+	</div>
+
 	<div class="lesson-header">
 	   <div class="lesson-nav">
 		   <a href="/lesson1" class="btn btn-secondary">← Leçon 1</a>
@@ -486,6 +494,24 @@ import Layout from '../layouts/Layout.astro';
 	  <button id="start-timer-culture" style="font-size:1.1rem; padding:0.5em 1.2em; background:#fff; border:2px solid #333; border-radius:0.5em; cursor:pointer; margin-bottom:0.5em;">⏱️ Démarrer le chronomètre</button>
 	  <span id="timer-display-culture" style="font-size:1.2rem; margin-left:1em;">00:00</span>
 		<script>
+		// Authentication check runs immediately
+		(function() {
+		  const loggedIn = localStorage.getItem('loggedIn');
+		  
+		  if (!loggedIn || loggedIn !== 'true') {
+			// Redirect immediately without showing content
+			window.location.replace('/login');
+			return;
+		  }
+		  
+		  // User is logged in, hide loading screen and show content
+		  const loadingScreen = document.getElementById('loading-screen');
+		  if (loadingScreen) {
+			loadingScreen.style.display = 'none';
+		  }
+		})();
+
+		// Timer functionality
 		let timerIntervalCulture: ReturnType<typeof setInterval> | undefined, secondsCulture = 0;
 		const startTimerCultureBtn = document.getElementById('start-timer-culture');
 		if (startTimerCultureBtn) {
@@ -522,6 +548,11 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <style>
+	@keyframes spin {
+		0% { transform: rotate(0deg); }
+		100% { transform: rotate(360deg); }
+	}
+
 	/* Inherit base lesson styles */
 	.lesson-header {
 		text-align: center;

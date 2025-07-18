@@ -1,6 +1,12 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
+// Server-side authentication check
+if (Astro.request.method === 'GET') {
+  // Since we can't access localStorage on the server, we'll let the client handle it
+  // But we'll make the redirect happen immediately without showing content
+}
+
 const lessons = [
 	{
 		id: 1,
@@ -44,6 +50,14 @@ const lessons = [
 ---
 
 <Layout title="Cours de Français A1 - Apprendre le Français en Ligne" description="Cours complet de français A1 pour adultes. Apprenez les bases du français à travers 5 leçons complètes couvrant les salutations, les nombres, la famille, la nourriture, et se déplacer.">
+	<!-- Loading indicator -->
+	<div id="loading-screen" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #667eea; display: flex; justify-content: center; align-items: center; z-index: 9999;">
+		<div style="text-align: center; color: white;">
+			<div style="width: 50px; height: 50px; border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 3px solid white; animation: spin 1s linear infinite; margin: 0 auto 1rem;"></div>
+			<p>Vérification de l'authentification...</p>
+		</div>
+	</div>
+
 	<div class="hero-section">
 		<div class="hero-content">
 			<div class="user-info">
@@ -121,14 +135,21 @@ const lessons = [
 </Layout>
 
 <script>
-  // Check if user is logged in
-  document.addEventListener('DOMContentLoaded', () => {
+  // Authentication check runs immediately
+  (function() {
     const loggedIn = localStorage.getItem('loggedIn');
     const username = localStorage.getItem('username');
     
     if (!loggedIn || loggedIn !== 'true') {
-      window.location.href = '/login';
+      // Redirect immediately without showing content
+      window.location.replace('/login');
       return;
+    }
+    
+    // User is logged in, hide loading screen and show content
+    const loadingScreen = document.getElementById('loading-screen');
+    if (loadingScreen) {
+      loadingScreen.style.display = 'none';
     }
     
     // Update welcome message
@@ -143,13 +164,18 @@ const lessons = [
       logoutBtn.addEventListener('click', () => {
         localStorage.removeItem('loggedIn');
         localStorage.removeItem('username');
-        window.location.href = '/login';
+        window.location.replace('/login');
       });
     }
-  });
+  })();
 </script>
 
 <style>
+	@keyframes spin {
+		0% { transform: rotate(0deg); }
+		100% { transform: rotate(360deg); }
+	}
+
 	.hero-section {
 		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 		color: white;
