@@ -196,14 +196,14 @@ const { title, description = "Learn French A1 - General French for Adults" } = A
 			<div class="container">
 				<div class="header-content">
 					<a href="/" class="logo">🇫🇷 French A1 Course</a>
-					<nav>
+					<nav id="main-nav">
 						<ul>
 							<li><a href="/">Home</a></li>
 							<li><a href="/lesson1">Lesson 1</a></li>
 							<li><a href="/lesson2">Lesson 2</a></li>
 							<li><a href="/lesson3">Lesson 3</a></li>
 							<li><a href="/lesson4">Lesson 4</a></li>
-							<li><a href="/login">Connexion</a></li>
+							<li><a href="/login" id="login-nav-link">Connexion</a></li>
 						</ul>
 					</nav>
 				</div>
@@ -221,5 +221,37 @@ const { title, description = "Learn French A1 - General French for Adults" } = A
 				<p>&copy; 2025 French A1 Course. Learn French step by step! 🚀</p>
 			</div>
 		</footer>
+
+		<!-- Navigation authentication check -->
+		<script>
+			// Hide navigation initially to prevent flash
+			const mainNav = document.getElementById('main-nav');
+			if (mainNav) {
+				mainNav.style.visibility = 'hidden';
+			}
+			
+			// Check authentication and show appropriate navigation
+			(function() {
+				const loggedIn = localStorage.getItem('loggedIn');
+				const loginLink = document.getElementById('login-nav-link');
+				
+				if (loggedIn === 'true') {
+					// User is logged in, show navigation without login link
+					if (loginLink) {
+						loginLink.style.display = 'none';
+					}
+				} else {
+					// User is not logged in, show login link only
+					if (loginLink) {
+						loginLink.style.display = 'block';
+					}
+				}
+				
+				// Show navigation after authentication check
+				if (mainNav) {
+					mainNav.style.visibility = 'visible';
+				}
+			})();
+		</script>
 	</body>
 </html>
